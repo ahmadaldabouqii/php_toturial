@@ -1,0 +1,17 @@
+{
+  "name": "ahmad/autoloading",
+  "authors": [
+    {
+      "name": "ahmadaldabouqii",
+      "email": "aldabouqiahmad@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "./app"
+    }
+  }
+}
