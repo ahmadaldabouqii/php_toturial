@@ -117,8 +117,9 @@
             'name'    => 'Ahmad',
             'surname' => 'Dabouqi',
             'age'     => 24,
-            'hobbies' => array('Football', 'Cooding', 'watch movie')
+            'hobbies' => ['Football', 'Coding', 'watch movie'],
         );
+
 
         // echo '<pre>';
         // print_r($person);
