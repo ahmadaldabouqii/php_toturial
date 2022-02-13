@@ -37,6 +37,10 @@ class Router {
     }
 
     public function renderView($view){
-        include_once __DIR__ ."/views/$view.php";
+        // I want to start cashing of the output
+        ob_start();
+        include_once __DIR__ . "/views/$view.php";
+        $content = ob_get_clean();
+        include_once __DIR__ . '/views/_layout.php';
     }
 }
