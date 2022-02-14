@@ -6,6 +6,11 @@ class Router {
     // we need to save given routes to somewhere
     public array $getRoutes  = [];
     public array $postRoutes = [];
+    public Database $db;
+
+    public function __construct() {
+        $this->db = new Database();
+    }
 
     public function get($url, $fn) {
         $this->getRoutes[$url] = $fn;
@@ -36,7 +41,11 @@ class Router {
         }
     }
 
-    public function renderView($view){
+    public function renderView($view, $params = []){
+        foreach ($params as $key => $value){
+            $$key = $value;
+        }
+
         // I want to start cashing of the output
         ob_start();
         include_once __DIR__ . "/views/$view.php";
