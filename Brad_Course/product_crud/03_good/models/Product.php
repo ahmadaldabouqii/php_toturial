@@ -45,7 +45,7 @@ class Product {
 
                 $this->imagePath = 'images/' . UtilHelper::randomString(8) . '/' . $this->imageFile['name'];
                 mkdir(dirname(__DIR__ . '/../public/' . $this->imagePath));
-                move_uploaded_file($this ->imageFile['tmp_name'], __DIR__ . '/../public/' . $this->imagePath);
+                move_uploaded_file($this->imageFile['tmp_name'], __DIR__ . '/../public/' . $this->imagePath);
             }
 
             $db = Database::$db;

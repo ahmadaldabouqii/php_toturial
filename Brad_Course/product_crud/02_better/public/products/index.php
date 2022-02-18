@@ -1,5 +1,5 @@
 <?php
-    /** @var $pdo \PDO */
+    /** @var $pdo PDO */
 
     require_once "../../database.php";
     $search = $_GET['search'] ?? '';
@@ -34,7 +34,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope=" col">#</th>
+            <th scope="col">#</th>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>

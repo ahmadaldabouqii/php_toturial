@@ -1,5 +1,5 @@
 <?php
-    /** @var $pdo \PDO */
+    /** @var $pdo PDO */
 
     require_once "../../database.php";
     require_once "../../functions.php";

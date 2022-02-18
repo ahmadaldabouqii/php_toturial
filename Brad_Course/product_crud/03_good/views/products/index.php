@@ -14,25 +14,28 @@
 
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Image</th>
-        <th scope="col">Title</th>
-        <th scope="col">Price</th>
-        <th scope="col">Create Date</th>
-        <th scope="col">Action</th>
-    </tr>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Create Date</th>
+            <th scope="col">Action</th>
+        </tr>
     </thead>
     <tbody>
     <?php foreach ($products as $product): ?>
         <tr>
             <th scope="row"><?php echo $product['id'] ?></th>
-            <td><img src="/<?php echo $product['image'] ?>" style="width: 50px;" /></td>
+            <td><?php if ($product['image']): ?>
+                    <img src="/<?php echo $product['image'] ?>" alt="<?php echo $product['title'] ?>" />
+                <?php endif; ?>
+            </td>
             <td><?php echo $product['title'] ?></td>
-            <td><?php echo $product['price'] ?> </td>
-            <td><?php echo $product['create_date'] ?> </td>
+            <td><?php echo $product['price'] ?></td>
+            <td><?php echo $product['create_date'] ?></td>
             <td>
-                <a href="update.php?id=<?php echo $product['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                <a href="/products/update?id=<?php echo $product['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
                 <form action="/products/delete" method="POST" style="display: inline-block;">
                     <input type="hidden" name="id" value="<?php echo $product['id']; ?>" />
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>

@@ -44,16 +44,30 @@ class Database {
         $statement->bindValue(':image', $product->imagePath);
         $statement->bindValue(':price', $product->price);
         $statement->bindValue(':date', date('Y-m-d H:i:s'));
-
         $statement->execute();
     }
 
     public function updateProduct(Product $product) {
+        $statement = $this->pdo->prepare("UPDATE products SET title = :title,
+             description = :description, image = :image, price = :price WHERE id = :id");
 
+        $statement->bindValue(':title', $product->title);
+        $statement->bindValue(':description', $product->description);
+        $statement->bindValue(':image', $product->imagePath);
+        $statement->bindValue(':price', $product->price);
+        $statement->bindValue(':id', $product->id);
+        $statement->execute();
+    }
+
+    public function getProductById($id) {
+        $statement = $this->pdo->prepare('SELECT * FROM products WHERE id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
     public function deleteProduct($id) {
-        $statement = $this ->pdo->prepare("DELETE FROM products WHERE id = :id");
+        $statement = $this->pdo->prepare("DELETE FROM products WHERE id = :id");
         $statement->bindValue(':id', $id);
         $statement->execute();
     }
