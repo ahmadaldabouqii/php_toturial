@@ -29,30 +29,21 @@ class Users extends Controller {
                 $data['email_err'] = 'Please enter email';
             } else {
                 // Check email
-                if ($this->userModel->findUserByEmail($data['email'])) {
-                    $data['email_err'] = 'Email is already taken';
-                }
+                if ($this->userModel->findUserByEmail($data['email'])) $data['email_err'] = 'Email is already taken';
             }
 
             // Validation Name
-            if (empty($data['name'])) {
-                $data['name_err'] = 'Please enter name';
-            }
+            if (empty($data['name'])) $data['name_err'] = 'Please enter name';
 
             // Validation Password
-            if (empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
-            } elseif (strlen($data['password']) < 6) {
-                $data['password_err'] = 'Password must be at least 6 characters';
-            }
+            if (empty($data['password'])) $data['password_err'] = 'Please enter password';
+            elseif (strlen($data['password']) < 6) $data['password_err'] = 'Password must be at least 6 characters';
 
             // Validation Confirm Password
             if (empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
             } else {
-                if ($data['password'] !== $data['confirm_password']) {
-                    $data['confirm_password_err'] = 'Password do not match';
-                }
+                if ($data['password'] !== $data['confirm_password']) $data['confirm_password_err'] = 'Password do not match';
             }
 
             // Make sure errors are empty
@@ -111,14 +102,10 @@ class Users extends Controller {
             ];
 
             // Validation Email
-            if (empty($data['email'])) {
-                $data['email_err'] = 'Please enter email';
-            }
+            if (empty($data['email'])) $data['email_err'] = 'Please enter email';
 
             // Validation Password
-            if (empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
-            }
+            if (empty($data['password'])) $data['password_err'] = 'Please enter password';
 
             // Check for user/email
             if ($this->userModel->findUserByEmail($data['email'])) {

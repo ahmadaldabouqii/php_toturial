@@ -12,18 +12,14 @@ class Database {
     private $user = DB_USER;
     private $pass = DB_PASS;
     private $dbname = DB_NAME;
-
     private $db_handler;
-    private $stmt;
+    private $statement;
     private $error;
 
     public function __construct() {
         // Set DSN
         $dsn = "mysql:host=$this->host;dbname=$this->dbname";
-        $options = array (
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        );
+        $options = array (PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
         try {
             $this->db_handler = new PDO ($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $err) {
@@ -34,7 +30,7 @@ class Database {
 
     // prepare statement with query
     public function query($sql) {
-        $this->stmt = $this->db_handler->prepare($sql);
+        $this->statement = $this->db_handler->prepare($sql);
     }
 
     // Bind Values
@@ -50,28 +46,28 @@ class Database {
                 default: $type = PDO::PARAM_STR;
             }
         }
-        $this->stmt->bindValue($param, $value, $type);
+        $this->statement->bindValue($param, $value, $type);
     }
 
     // Execute the prepared statement
     public function execute() {
-        return $this->stmt->execute();
+        return $this->statement->execute();
     }
 
     // Get result set as array of objects
     public function resultSet() {
         $this->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     // Get single record as object
     public function single() {
         $this->execute();
-        return $this->stmt->fetch(PDO::FETCH_OBJ);
+        return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     // Get row count
     public function rowCount() {
-        return $this->stmt->rowCount();
+        return $this->statement->rowCount();
     }
 }
