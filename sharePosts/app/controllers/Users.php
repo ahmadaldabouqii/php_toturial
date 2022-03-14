@@ -29,7 +29,7 @@ class Users extends Controller {
                 $data['email_err'] = 'Please enter email';
             } else {
                 // Check email
-                if($this->userModel->findUserByEmail($data['email'])) {
+                if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
@@ -56,13 +56,13 @@ class Users extends Controller {
             }
 
             // Make sure errors are empty
-            if(empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
+            if (empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 // Validated
                 // Hash Password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 // Register User
-                if($this->userModel->register($data)) {
+                if ($this->userModel->register($data)) {
                     flash('register_success', 'You are registered and you can log in');
                     redirect('users/login');
                 } else {
@@ -99,7 +99,7 @@ class Users extends Controller {
 
     public function login() {
         // Check for POST
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Process form
             // Sanitize POST data as string
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -117,14 +117,22 @@ class Users extends Controller {
             }
 
             // Validation Password
-            if(empty($data['password'])) {
+            if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             }
 
+            // Check for user/email
+            if ($this->userModel->findUserByEmail($data['email'])) {
+                // User Found
+            } else {
+                $data['email_err'] = 'No user found';
+            }
+
             // Make sure errors are empty
-            if(empty($data['email_err']) && empty($data['password_err'])) {
+            if (empty($data['email_err']) && empty($data['password_err'])) {
                 // Validated
-                die('SUCCESS');
+                // Check and set logged in user
+                $loggedInUser = $this->userModel->login();
             } else {
                 // Load view with errors
                 $this->view('users/login', $data);
@@ -138,7 +146,6 @@ class Users extends Controller {
                 'email_err' => '',
                 'password_err' => ''
             ];
-
             // load the view
             $this->view('users/login', $data);
         }

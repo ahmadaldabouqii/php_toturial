@@ -13,11 +13,8 @@ class User {
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
-        if($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        if ($this->db->execute()) return true;
+        return false;
     }
 
     public function findUserByEmail($email) {
@@ -26,10 +23,7 @@ class User {
         $this->db->single();
 
         // Check row
-        if($this->db->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        if ($this->db->rowCount() > 0) return true;
+        return false;
     }
 }
