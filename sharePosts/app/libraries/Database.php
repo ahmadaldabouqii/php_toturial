@@ -42,11 +42,11 @@ class Database {
         if (is_null($type)) {
             switch (true) {
                 case is_int($value): $type = PDO::PARAM_INT;
-                break;
+                    break;
                 case is_bool($value): $type = PDO::PARAM_BOOL;
-                break;
+                    break;
                 case is_null($value): $type = PDO::PARAM_NULL;
-                break;
+                    break;
                 default: $type = PDO::PARAM_STR;
             }
         }
