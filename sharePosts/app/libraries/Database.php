@@ -17,7 +17,7 @@ class Database {
     private $stmt;
     private $error;
 
-    public function __construct(){
+    public function __construct() {
         // Set DSN
         $dsn = "mysql:host=$this->host;dbname=$this->dbname";
         $options = array (
@@ -26,21 +26,21 @@ class Database {
         );
         try {
             $this->db_handler = new PDO ($dsn, $this->user, $this->pass, $options);
-        }catch (PDOException $err) {
+        } catch (PDOException $err) {
             $this->error = $err->getMessage();
             echo $this->error;
         }
     }
 
     // prepare statement with query
-    public function query($sql){
+    public function query($sql) {
         $this->stmt = $this->db_handler->prepare($sql);
     }
 
     // Bind Values
-    public function bind($param, $value, $type = null){
-        if(is_null($type)){
-            switch (true){
+    public function bind($param, $value, $type = null) {
+        if(is_null($type)) {
+            switch (true) {
                 case is_int($value): $type = PDO::PARAM_INT;
                 break;
                 case is_bool($value): $type = PDO::PARAM_BOOL;
@@ -54,7 +54,7 @@ class Database {
     }
 
     // Execute the prepared statement
-    public function execute(){
+    public function execute() {
         return $this->stmt->execute();
     }
 
@@ -71,7 +71,7 @@ class Database {
     }
 
     // Get row count
-    public function rowCount(){
+    public function rowCount() {
         return $this->stmt->rowCount();
     }
 }

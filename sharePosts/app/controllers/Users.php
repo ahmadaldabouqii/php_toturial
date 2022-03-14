@@ -1,7 +1,9 @@
 <?php
 
 class Users extends Controller {
-    public function __construct() {}
+    public function __construct() {
+        $this->userModel = $this->model('User');
+    }
 
     // it's gonna handle loading our form & handle submit the form when we make POST request
     public function register() {
@@ -25,6 +27,11 @@ class Users extends Controller {
             // Validation Email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
+            } else {
+                // Check email
+                if($this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'Email is already taken';
+                }
             }
 
             // Validation Name
@@ -41,7 +48,7 @@ class Users extends Controller {
 
             // Validation Confirm Password
             if (empty($data['confirm_password'])) {
-                $data['password_err'] = 'Please confirm password';
+                $data['confirm_password_err'] = 'Please confirm password';
             } else {
                 if ($data['password'] !== $data['confirm_password']) {
                     $data['confirm_password_err'] = 'Password do not match';
@@ -49,12 +56,20 @@ class Users extends Controller {
             }
 
             // Make sure errors are empty
-            if(empty($data['email_err']) && empty($data['name_err'])
-               && empty($data['password_err']) && empty($data['confirm_password_err'])
-            ){
+            if(empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 // Validated
-                die('SUCCESS');
-            }else{
+                // Hash Password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                // Register User
+                if($this->userModel->register($data)) {
+                    flash('register_success', 'You are registered and you can log in');
+                    redirect('users/login');
+                } else {
+                    die('Something went wrong');
+                }
+
+            } else {
                 // Load view with errors
                 $this->view('users/register', $data);
             }
@@ -82,12 +97,40 @@ class Users extends Controller {
         }
     }
 
-    public function login(){
+    public function login() {
         // Check for POST
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Process form
+            // Sanitize POST data as string
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        }else{
+            $data = [
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'email_err' => '',
+                'password_err' => '',
+            ];
+
+            // Validation Email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter email';
+            }
+
+            // Validation Password
+            if(empty($data['password'])) {
+                $data['password_err'] = 'Please enter password';
+            }
+
+            // Make sure errors are empty
+            if(empty($data['email_err']) && empty($data['password_err'])) {
+                // Validated
+                die('SUCCESS');
+            } else {
+                // Load view with errors
+                $this->view('users/login', $data);
+            }
+
+        } else {
             // Init data
             $data = [
                 'email' => '',
