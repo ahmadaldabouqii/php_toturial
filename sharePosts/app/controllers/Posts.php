@@ -57,16 +57,6 @@ class Posts extends Controller {
         $this->view('posts/add', $data);
     }
 
-    public function show($id) {
-        $post = $this->postModel->getPostById($id);
-        $user = $this->userModel->getUserById($post->user_id);
-        $data = [
-            'post' => $post,
-            'user' => $user
-        ];
-        $this->view('posts/show', $data);
-    }
-
     public function edit($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Sanitize POST array
@@ -112,5 +102,32 @@ class Posts extends Controller {
             ];
         }
         $this->view('posts/edit', $data);
+    }
+
+    public function show($id) {
+        $post = $this->postModel->getPostById($id);
+        $user = $this->userModel->getUserById($post->user_id);
+        $data = [
+            'post' => $post,
+            'user' => $user
+        ];
+        $this->view('posts/show', $data);
+    }
+
+    public function delete($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Get existing post from model
+            $post = $this->postModel->getPostById($id);
+            // Check for owner
+            if ($post->user_id != $_SESSION['user_id']) redirect('posts');
+            if ($this->postModel->deletePost($id)) {
+                flash('post_message', 'Post Removed');
+                redirect('posts');
+            } else {
+                die('something went wrong');
+            }
+        } else {
+            redirect('posts');
+        }
     }
 }
