@@ -120,12 +120,12 @@ class Posts extends Controller {
             $post = $this->postModel->getPostById($id);
             // Check for owner
             if ($post->user_id != $_SESSION['user_id']) redirect('posts');
+
             if ($this->postModel->deletePost($id)) {
                 flash('post_message', 'Post Removed');
                 redirect('posts');
-            } else {
-                die('something went wrong');
-            }
+            } else { die('something went wrong'); }
+            
         } else {
             redirect('posts');
         }

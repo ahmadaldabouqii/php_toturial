@@ -1,5 +1,7 @@
 <?php require APPROOT . '/views/inc/header.php'?>
-    <a class="btn btn-light" href="<?php echo URLROOT ?>/posts"><i class="fa-duotone fa-hand"></i>Back</a>
+    <a class="btn btn-light" href="<?php echo URLROOT ?>/posts">
+        <i class="fa-duotone fa-hand"></i>Back
+    </a>
     <br/>
     <h1><?php echo $data['post']->title ?></h1>
     <div class="bg-secondary text-white p-2 mb-3">

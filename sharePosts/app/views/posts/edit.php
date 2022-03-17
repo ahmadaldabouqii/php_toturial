@@ -1,5 +1,7 @@
 <?php require APPROOT . '/views/inc/header.php'?>
-    <a class="btn btn-light" href="<?php echo URLROOT ?>/posts"><i class="fa-duotone fa-hand"></i> Back</a>
+    <a class="btn btn-light" href="<?php echo URLROOT ?>/posts">
+        <i class="fa-duotone fa-hand"></i> Back
+    </a>
     <div class="card card-body bg-light mt-5">
         <h2>Edit Post</h2>
         <p>Edit the post with this form</p>
