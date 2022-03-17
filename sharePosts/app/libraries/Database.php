@@ -12,16 +12,16 @@ class Database {
     private $user = DB_USER;
     private $pass = DB_PASS;
     private $dbname = DB_NAME;
-    private $db_handler;
+    private $pdo;
     private $statement;
     private $error;
 
     public function __construct() {
-        // Set DSN
+        // Set DSN (Data Source Name)
         $dsn = "mysql:host=$this->host;dbname=$this->dbname";
         $options = array (PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
         try {
-            $this->db_handler = new PDO ($dsn, $this->user, $this->pass, $options);
+            $this->pdo = new PDO ($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $err) {
             $this->error = $err->getMessage();
             echo $this->error;
@@ -30,7 +30,7 @@ class Database {
 
     // prepare statement with query
     public function query($sql) {
-        $this->statement = $this->db_handler->prepare($sql);
+        $this->statement = $this->pdo->prepare($sql);
     }
 
     // Bind Values
